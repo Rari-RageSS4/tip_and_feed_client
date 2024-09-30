@@ -6,8 +6,21 @@ import 'package:tip_and_feed_client/common/styles/app_gaps.dart';
 
 import 'package:flutter/material.dart';
 
-class BillDetailsPage extends StatelessWidget {
+class BillDetailsPage extends StatefulWidget {
+  @override
+  State<BillDetailsPage> createState() => _BillDetailsPageState();
+}
+
+class _BillDetailsPageState extends State<BillDetailsPage> {
   final HomeController homeController = Get.find<HomeController>();
+
+  String? selectedTip; // State variable to track selected tip
+
+    void updateTip(String label) {
+      setState(() {
+        selectedTip = label; // Update the selected tip
+      });
+    }
 
   @override
   Widget build(BuildContext context) {
@@ -426,15 +439,12 @@ class BillDetailsPage extends StatelessWidget {
     );
   }
 
-
-
   // Tip Button UI
   Widget _buildTipButton(String label, bool isSelected) {
     double value = 0;
     switch (label) {
       case '₹50':
         value = 50;
-        isSelected = true;
         break;
       case '₹80':
         value = 80;
@@ -445,11 +455,15 @@ class BillDetailsPage extends StatelessWidget {
       default:
         value = 0;
     }
+
+    isSelected = selectedTip == label;
+
     return GestureDetector(
       onTap: () {
         // Tip button functionality
         homeController.updateTipAmount(value);
         homeController.updateTotalAmount();
+        updateTip(label);
       },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
