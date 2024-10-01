@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:tip_and_feed_client/FEATURES/HOMEPAGE/login/login_binding.dart';
+import 'package:tip_and_feed_client/FEATURES/HOMEPAGE/login/login_page.dart';
 
 import '../../FEATURES/HOMEPAGE/view/tip_home/bindings.dart';
 import '../../FEATURES/HOMEPAGE/view/tip_home/screenUi.dart';
@@ -28,10 +30,11 @@ class Routes {
     //   // bindings: [HomeBinding()]
     // ),
     //
-    // GetPage(
-    //     name: AppRoutes.login,
-    //     page: () => LoginPage(),
-    //     bindings: [AuthBinding()]),
+    GetPage(
+      name: AppRoutes.login,
+      page: () => LoginPage(),
+      bindings: [LoginBinding()],
+    ),
     //
     // GetPage(
     //     name: AppRoutes.otp,

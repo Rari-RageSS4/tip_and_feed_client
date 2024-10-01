@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:tip_and_feed_client/common/routes/routes.dart';
 
 import '../../../../common/styles/colors.dart';
 import '../../../../common/utils/icons/icons.dart';
@@ -12,7 +14,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      leading: AppIcons.person,// Leading icon in the AppBar
+      leading: IconButton(onPressed: (){
+        Get.toNamed(AppRoutes.login);
+      }, icon: AppIcons.person,),// Leading icon in the AppBar
       title: Center(
         child: AppImages.appLogo
       ),
