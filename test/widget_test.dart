@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:tip_and_feed_client/app.dart';
-import 'package:tip_and_feed_client/main.dart';
+//import 'package:tip_and_feed_client/main.dart';
 
 
 void main() {
