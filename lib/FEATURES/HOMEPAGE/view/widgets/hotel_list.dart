@@ -9,7 +9,6 @@ class PaymentMethodsGrid extends StatelessWidget {
     "assets/hotels/img_3.png",
     "assets/hotels/img_4.png",
     "assets/hotels/img_5.png",
-
   ];
 
   @override

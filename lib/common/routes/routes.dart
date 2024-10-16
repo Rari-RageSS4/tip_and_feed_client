@@ -1,23 +1,31 @@
 import 'package:get/get.dart';
 import 'package:tip_and_feed_client/FEATURES/HOMEPAGE/login/login_binding.dart';
 import 'package:tip_and_feed_client/FEATURES/HOMEPAGE/login/login_page.dart';
+import 'package:tip_and_feed_client/FEATURES/bottom_nav_bar/bottom_nav_bar.dart';
+import 'package:tip_and_feed_client/FEATURES/bottom_nav_bar/bottom_nav_bar_binding.dart';
 
-import '../../FEATURES/HOMEPAGE/view/tip_home/bindings.dart';
-import '../../FEATURES/HOMEPAGE/view/tip_home/screenUi.dart';
+//import '../../FEATURES/HOMEPAGE/view/tip_home/bindings.dart';
+import '../../FEATURES/HOMEPAGE/view/tip_home/screen_ui.dart';
 import '../../FEATURES/HOMEPAGE/view/tip_pay/screenUi.dart';
 
 class Routes {
   static final routes = [
     //
     GetPage(
-        name: AppRoutes.homePage,
-        page: () => HomePage(),
-        bindings: [HomeBinding()]),
+        name: AppRoutes.bottomNavBar,
+        page: () => const BottomNavBar(),
+        bindings: [BottomNavBarBinding()]),
+    GetPage(
+      name: AppRoutes.homePage,
+      page: () => const HomePage(),
+      //  bindings: [HomeBinding()]
+    ),
 
     GetPage(
-        name: AppRoutes.tipPage,
-        page: () => TipCalculatorScreen(),
-        bindings: [HomeBinding()]),
+      name: AppRoutes.tipPage,
+      page: () => TipCalculatorScreen(),
+      //bindings: [HomeBinding()]
+    ),
 
     // GetPage(
     //     name: AppRoutes.cart,
@@ -100,6 +108,7 @@ class Routes {
 }
 
 class AppRoutes {
+  static const bottomNavBar = "/bottomNavBar";
   static const splashScreen = "/splash";
   static const login = "/login";
   static const timeSlots = "/timeslots";

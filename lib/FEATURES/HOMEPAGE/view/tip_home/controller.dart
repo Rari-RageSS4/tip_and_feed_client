@@ -9,7 +9,7 @@ import '../../domain/entity/params/staff_params.dart';
 import '../../domain/usecase/get_staffs_usecase.dart';
 
 class HomeController extends GetxController {
-
+  
   final GetHotelsUseCase getHotelsUseCase;
   final GetStaffsUseCase getStaffsUseCase;
 
@@ -26,18 +26,19 @@ class HomeController extends GetxController {
   RxDouble billAmount = 0.0.obs;
   TextEditingController totalAmountController = TextEditingController();
 
-
   RxDouble tipAmount = 0.0.obs;
   TextEditingController tipAmountController = TextEditingController();
 
-   final getHotelsResponse = ResponseClassify<HotelModel>.loading().obs;
-   final getStaffsResponse = ResponseClassify<StaffModel>.loading().obs;
-  RxDouble totalAmount = 0.0.obs; // This will store the final total (bill + tip)
+  final getHotelsResponse = ResponseClassify<HotelModel>.loading().obs;
+  final getStaffsResponse = ResponseClassify<StaffModel>.loading().obs;
+  RxDouble totalAmount =
+      0.0.obs; // This will store the final total (bill + tip)
 
   // Function to calculate the total amount (bill + tip)
   void updateTotalAmount() {
     totalAmount.value = billAmount.value + tipAmount.value;
   }
+
   void updateBillAmount() {
     // Safely parse the input text and update the bill amount
     billAmount.value = double.tryParse(totalAmountController.text) ?? 0.0;
@@ -45,9 +46,9 @@ class HomeController extends GetxController {
 
   void updateTipAmount(double? label) {
     // Safely parse the input text and update the bill amount
-    if(label == null){
+    if (label == null) {
       tipAmount.value = double.tryParse(tipAmountController.text) ?? 0.0;
-    }else{
+    } else {
       tipAmount.value = label;
     }
   }
@@ -78,10 +79,10 @@ class HomeController extends GetxController {
 
   void _callGetStaffsInBackground() async {
     Future.delayed(const Duration(seconds: 1), () async {
-      await getStaffs();  // Call getStaffs after a short delay in the background
+      await getStaffs(); // Call getStaffs after a short delay in the background
     });
   }
+
   final addingData = false.obs;
   var applyOfferResponse = ResponseClassify.error("").obs;
-
 }

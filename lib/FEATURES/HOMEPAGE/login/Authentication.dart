@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'dart:convert';
@@ -5,15 +8,58 @@ import 'package:http/http.dart' as http;
 
 class AuthenticationController extends GetxController {
 
+  final Rx<GoogleSignInAccount?> _currentUser = Rx<GoogleSignInAccount?>(null);
+  
+  final pageController = PageController();
+
+  late Timer _timer; // Declare the timer
+
+  int _currentPage = 0;
+  final int _totalPages = 3;
+
   GoogleSignIn googleSignIn = GoogleSignIn(
     scopes: [
       'email',
     ],
   );
 
+ // @override
+  void initState() {
+  //  super.initState();
+
+    // Start a timer to auto-switch pages every 3 seconds
+    Timer.periodic(const Duration(seconds: 3), (Timer timer) {
+      if (_currentPage < _totalPages - 1) {
+        _currentPage++;
+      } else {
+        _currentPage = 0; // Reset to the first page
+      }
+      pageController.animateToPage(
+        _currentPage,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.easeInOut,
+      );
+    });
+
+
+    // user change
+    googleSignIn.onCurrentUserChanged
+        .listen((GoogleSignInAccount? account) {
+      _currentUser.value = account;
+      googleSignIn.signInSilently();
+    });
+    
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel(); // Cancel the timer when the widget is disposed
+    pageController.dispose(); // Dispose of the controller
+    super.dispose();
+  }
+
 
   // SIGN IN
-
   Future<void> signInWithGoogle() async {
     try {
       // Trigger the Google sign-in process

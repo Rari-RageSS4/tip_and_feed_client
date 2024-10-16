@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:tip_and_feed_client/FEATURES/HOMEPAGE/view/tip_home/controller.dart';
 import 'package:tip_and_feed_client/FEATURES/HOMEPAGE/view/widgets/appBar_homePage.dart';
 import 'package:tip_and_feed_client/FEATURES/HOMEPAGE/view/widgets/headings.dart';
 import 'package:tip_and_feed_client/FEATURES/HOMEPAGE/view/widgets/hotel_list.dart';
@@ -6,12 +8,13 @@ import 'package:tip_and_feed_client/FEATURES/HOMEPAGE/view/widgets/tip_box/tip_a
 import '../../../../common/styles/app_gaps.dart';
 import '../../../../common/styles/colors.dart';
 
-
-class HomePage extends StatelessWidget {
+class HomePage extends GetView<HomeController> {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    
+    //final controller = Get.find<HomeController>();
     return Scaffold(
       // Custom AppBar
       appBar: CustomAppBar(),
@@ -22,7 +25,6 @@ class HomePage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
             // Medium gap to create space below the AppBar
             AppGaps.gapMedium,
 
@@ -43,5 +45,3 @@ class HomePage extends StatelessWidget {
     );
   }
 }
-
-
