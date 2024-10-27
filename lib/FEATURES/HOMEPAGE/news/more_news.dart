@@ -1,112 +1,221 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:tip_and_feed_client/FEATURES/HOMEPAGE/news/news_controller.dart';
+import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 
-class MoreNewsScreen extends StatelessWidget {
+class MoreNewsScreen extends GetView<NewsController> {
   const MoreNewsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(
-              height: 30,
-            ),
-            // Main headline section
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                // comments
-                Container(
+    return CustomScrollView(
+      slivers: [
+        SliverStickyHeader(
+          header: commentRepostButton(),
+          sliver: SliverList(
+            delegate: SliverChildListDelegate(
+              [
+                const SizedBox(
                   height: 40,
-                  width: 100,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
-                      color: const Color.fromARGB(255, 68, 0, 186)),
-                  child: const Center(child: Text('Comments')),
+                ),
+
+                // comment img
+                Center(
+                  child: Image.asset(
+                    'assets/newsfeed/comment.png',
+                    width: 100,
+                    height: 100,
+                  ),
                 ),
 
                 const SizedBox(
-                  width: 15,
+                  height: 40,
                 ),
 
-                // repost
-                Container(
-                  height: 40,
-                  width: 100,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30),
-                    color: Colors.grey,
+                const Center(
+                  child: Text(
+                    'No comments yet. Be the first to comment',
+                    style: TextStyle(fontSize: 12),
                   ),
-                  child: const Center(child: Text('Reposts')),
-                )
+                ),
+
+                const SizedBox(
+                  height: 12,
+                ),
+
+                // Input for comment
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: TextField(
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30),
+                          borderSide: BorderSide.none),
+                      filled: true,
+                      fillColor: Colors.grey[900],
+                      hintText: 'Add your comment',
+                      suffixIcon: const Icon(Icons.send),
+                    ),
+                  ),
+                ),
+
+                const SizedBox(
+                  height: 40,
+                ),
               ],
             ),
-           // const Spacer(),
-            // comment img
-            Center(child: Image.asset('assets/newsfeed/comment.png')),
+          ),
+        ),
 
-           // const Spacer(),
-
-           // const Expanded(
-              //child: 
-              Center(
-                child: Text('No comments yet. Be the first to comment'),
-              ),
-           // ),
-
-            //const Spacer(),
-
-            // Input for comment
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: TextField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30),
-                      borderSide: BorderSide.none),
-                  filled: true,
-                  fillColor: Colors.grey[900],
-                  hintText: 'Add your comment',
-                  suffixIcon: const Icon(Icons.send),
+        // More like this
+        SliverStickyHeader(
+          header: const Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(left: 16.0),
+                child: Text(
+                  'More like this',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
               ),
+              Padding(
+                padding: EdgeInsets.only(left: 16.0),
+                child: Text(
+                  'Recommendations from Medial',
+                  style: TextStyle(fontSize: 12, color: Colors.grey),
+                ),
+              ),
+              SizedBox(
+                height: 40,
+              ),
+            ],
+          ),
+          // more news list
+          sliver: SliverList(
+            delegate: SliverChildListDelegate(
+              [
+                moreNewsListview(),
+              ],
             ),
-
-           // const Spacer(),
-
-            // Recommendations section
-            const Text(
-              'More like this',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            const Text(
-              'Recommendations from Medial',
-              style: TextStyle(fontSize: 12, color: Colors.grey),
-            ),
-
-           // const Spacer(),
-
-            // // list tile
-            // ListView.builder(
-            //   itemBuilder: (context, index) {
-                
-            // },
-            // ),
-            ListTile(
-              title: const Text(
-                  'Coro, building cybersecurity for SMBs, locks down...'),
-              subtitle: const Text('TechCrunch • 6mo ago'),
-              trailing: Image.asset('assets/newsfeed/medial.webp'),
-            ),
-            ListTile(
-              title: const Text('All things startups'),
-              subtitle: const Text('Medial • Featured'),
-              trailing: Image.asset('assets/newsfeed/medial.webp'),
-            ),
-          ],
+          ),
         ),
-      );
+      ],
+    );
+  }
+
+  // comment and repost
+  Row commentRepostButton() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        // comments
+        Container(
+          height: 40,
+          width: 100,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(30),
+            color: const Color.fromARGB(51, 208, 191, 255),
+          ),
+          child: const Center(child: Text('Comments')),
+        ),
+
+        const SizedBox(
+          width: 15,
+        ),
+
+        // repost
+        Container(
+          height: 40,
+          width: 100,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(30),
+            color: const Color.fromARGB(95, 158, 158, 158),
+          ),
+          child: const Center(child: Text('Reposts')),
+        )
+      ],
+    );
+  }
+
+  // more news list
+  SizedBox moreNewsListview() {
+    return SizedBox(
+      child: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child: Column(
+          children: List.generate(controller.newsList.length, (index) {
+            var moreNewsArticle = controller.newsList[index];
+            return GestureDetector(
+              onTap: () {
+                //  Get.to(() => );
+              },
+              child: Container(
+                margin:
+                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                decoration: BoxDecoration(
+                  // color: Colors.white,
+                  borderRadius: BorderRadius.circular(30.0),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.shade900,
+                      blurRadius: 6.0,
+                      spreadRadius: 1.0,
+                      offset: const Offset(0, 3),
+                    ),
+                  ],
+                ),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "${moreNewsArticle.source} • ${moreNewsArticle.timeAgo}",
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14.0,
+                            ),
+                          ),
+                          const SizedBox(height: 8.0),
+                          Text(
+                            moreNewsArticle.title,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.0,
+                            ),
+                            softWrap: true,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          const SizedBox(height: 8.0),
+                          Text(
+                            '${moreNewsArticle.comments} Comments',
+                            style: const TextStyle(
+                              fontSize: 12.0,
+                              color: Colors.grey,
+                            ),
+                          ),
+                          const SizedBox(height: 8.0),
+                        ],
+                      ),
+                    ),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: Image.asset(
+                        moreNewsArticle.imageUrl,
+                        height: 100.0,
+                        width: 100,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          }),
+        ),
+      ),
+    );
   }
 }

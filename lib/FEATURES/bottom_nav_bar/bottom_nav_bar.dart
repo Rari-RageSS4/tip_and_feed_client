@@ -19,6 +19,10 @@ class BottomNavBar extends GetView<BottomNavBarController> {
               label: 'Home',
             ),
             BottomNavigationBarItem(
+              icon: Icon(Icons.dining_rounded),
+              label: 'Restaurants',
+            ),
+            BottomNavigationBarItem(
               icon: Icon(Icons.newspaper_rounded),
               label: 'News',
             ),
